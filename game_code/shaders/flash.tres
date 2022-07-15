@@ -1,0 +1,20 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform vec4 flashColor: hint_color = vec4(0.3);
+uniform float flashModifier: hint_range(0.0,1.0) = 1;//rango de color
+uniform float speedTime = 6.0;//tiempo de titileo
+uniform bool changeSprite = false;
+
+void fragment(){
+	vec4 color  = texture(TEXTURE, UV);
+	COLOR = texture(TEXTURE,UV);
+	color.rgb = mix(color.rgb, flashColor.rgb, flashModifier);
+	color *= mod(TIME*speedTime, 1.0);//hago que titile la imagen
+	
+	if (changeSprite){
+		COLOR = color;
+	}
+}"

@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/chars.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://assets/lifebar_black.png" type="Texture" id=3]
 [ext_resource path="res://assets/lifebar_red.png" type="Texture" id=4]
 [ext_resource path="res://assets/lifebar_green.png" type="Texture" id=5]
+[ext_resource path="res://scenes/Shuriken.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.5, 12.5 )
@@ -38,7 +39,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 9, 10, 11, 10 ]
+"values": [ 54, 55, 56, 55 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -52,10 +53,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.549731 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 21, 22, 23, 22 ]
+"values": [ 66, 67, 68, 67 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -72,7 +73,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 33, 34, 35, 34 ]
+"values": [ 78, 79, 80, 79 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -86,29 +87,30 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.570143 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 45, 46, 47, 46 ]
+"values": [ 90, 91, 92, 91 ]
 }
 
 [sub_resource type="CircleShape2D" id=7]
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 12, 14.5 )
+extents = Vector2( 11, 13.5 )
 
-[node name="EnemyWarrior" type="KinematicBody2D" groups=["enemies"]]
+[node name="EnemyRanger" type="KinematicBody2D" groups=["enemies"]]
 script = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.5, 1.5 )
-shape = SubResource( 1 )
+Shuriken = ExtResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 hframes = 12
 vframes = 8
 frame = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, 1.5 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )

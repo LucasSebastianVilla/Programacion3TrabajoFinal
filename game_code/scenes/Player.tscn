@@ -1,11 +1,23 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/chars.png" type="Texture" id=2]
 [ext_resource path="res://scenes/Shuriken.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/lifebar_black.png" type="Texture" id=4]
+[ext_resource path="res://assets/lifebar_red.png" type="Texture" id=5]
+[ext_resource path="res://assets/lifebar_green.png" type="Texture" id=6]
+[ext_resource path="res://shaders/flash.tres" type="Shader" id=7]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 12, 14.5 )
+[sub_resource type="ShaderMaterial" id=13]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/flashColor = Color( 0.529412, 0.0509804, 0.541176, 0.537255 )
+shader_param/flashModifier = 1.0
+shader_param/speedTime = 6.0
+shader_param/changeSprite = false
+
+[sub_resource type="CapsuleShape2D" id=12]
+height = 7.0
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -158,13 +170,15 @@ tracks/0/keys = {
 "values": [ 36, 37, 38, 37 ]
 }
 
-[node name="Player" type="KinematicBody2D"]
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 12.5, 14.5 )
+
+[node name="Player" type="KinematicBody2D" groups=["player"]]
 script = ExtResource( 1 )
 Shuriken = ExtResource( 3 )
 
-[node name="WeaponStart" type="Position2D" parent="."]
-
 [node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 13 )
 texture = ExtResource( 2 )
 hframes = 12
 vframes = 8
@@ -174,7 +188,18 @@ region_rect = Rect2( 0, 0, 384, 256 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1, 0.5 )
-shape = SubResource( 1 )
+shape = SubResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/idle_down = SubResource( 7 )
+anims/idle_left = SubResource( 8 )
+anims/idle_right = SubResource( 9 )
+anims/idle_up = SubResource( 10 )
+anims/walk_down = SubResource( 4 )
+anims/walk_left = SubResource( 5 )
+anims/walk_right = SubResource( 6 )
+anims/walk_up = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 1, 1 )
@@ -188,13 +213,26 @@ drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 3 )
-anims/idle_down = SubResource( 7 )
-anims/idle_left = SubResource( 8 )
-anims/idle_right = SubResource( 9 )
-anims/idle_up = SubResource( 10 )
-anims/walk_down = SubResource( 4 )
-anims/walk_left = SubResource( 5 )
-anims/walk_right = SubResource( 6 )
-anims/walk_up = SubResource( 2 )
+[node name="LifeBar" type="TextureProgress" parent="."]
+margin_left = -13.0
+margin_top = -20.0
+margin_right = 19.0
+margin_bottom = -16.0
+rect_scale = Vector2( 0.8, 0.8 )
+value = 100.0
+texture_under = ExtResource( 5 )
+texture_over = ExtResource( 4 )
+texture_progress = ExtResource( 6 )
+
+[node name="PlayerBody" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody"]
+position = Vector2( 0.5, 0.5 )
+shape = SubResource( 11 )
+
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[connection signal="area_entered" from="PlayerBody" to="." method="_on_PlayerBody_area_entered"]
+[connection signal="body_entered" from="PlayerBody" to="." method="_on_PlayerBody_body_entered"]
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
