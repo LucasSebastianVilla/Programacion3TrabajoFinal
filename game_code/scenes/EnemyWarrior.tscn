@@ -1,13 +1,21 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/chars.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://assets/lifebar_black.png" type="Texture" id=3]
 [ext_resource path="res://assets/lifebar_red.png" type="Texture" id=4]
 [ext_resource path="res://assets/lifebar_green.png" type="Texture" id=5]
+[ext_resource path="res://shaders/flash.tres" type="Shader" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.5, 12.5 )
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = ExtResource( 6 )
+shader_param/flashColor = Color( 0.47451, 0.12549, 0.486275, 0.301961 )
+shader_param/flashModifier = 1.0
+shader_param/speedTime = 6.0
+shader_param/changeSprite = false
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -98,6 +106,8 @@ tracks/0/keys = {
 extents = Vector2( 12, 14.5 )
 
 [node name="EnemyWarrior" type="KinematicBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 31
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -105,6 +115,7 @@ position = Vector2( 0.5, 1.5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 9 )
 texture = ExtResource( 1 )
 hframes = 12
 vframes = 8
@@ -127,21 +138,25 @@ shape = SubResource( 7 )
 scale = Vector2( 2, 1 )
 enabled = true
 cast_to = Vector2( 0, -15 )
+collision_mask = 26
 
 [node name="RayDown" type="RayCast2D" parent="."]
 scale = Vector2( 2, 1 )
 enabled = true
 cast_to = Vector2( 0, 15 )
+collision_mask = 26
 
 [node name="RayLeft" type="RayCast2D" parent="."]
 scale = Vector2( 1, 3 )
 enabled = true
 cast_to = Vector2( -15, 0 )
+collision_mask = 26
 
 [node name="RayRight" type="RayCast2D" parent="."]
 scale = Vector2( 1, 3 )
 enabled = true
 cast_to = Vector2( 15, 0 )
+collision_mask = 26
 
 [node name="EnemyBody" type="Area2D" parent="."]
 
@@ -160,6 +175,10 @@ texture_under = ExtResource( 4 )
 texture_over = ExtResource( 3 )
 texture_progress = ExtResource( 5 )
 
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.3
+
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
 [connection signal="area_entered" from="EnemyBody" to="." method="_on_EnemyBody_area_entered"]
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]

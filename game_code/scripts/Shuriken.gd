@@ -23,11 +23,12 @@ func _physics_process(delta):
 		queue_free()
 
 func _on_Shuriken_body_entered(body):
-	if body.is_in_group("player") && objectToKill == 1: #si el body es el player lo destruye
+	if body.is_in_group("player") && objectToKill == 1: #si el body es el player se destruye
 		print("Mata player")
 		queue_free()
-	if body.is_in_group("enemies") && objectToKill == 2: #si el body es enemigo lo destruye
+	elif body.is_in_group("enemies") && objectToKill == 2: #si el body es enemigo se destruye
 		print("Mata enemigos")
 		queue_free()
-
-
+	else: #si el body es otra cosa se destruye
+		print("se rompe contra los objetos")
+		queue_free()

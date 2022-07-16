@@ -15,6 +15,8 @@ onready var flashTimer = $FlashTimer
 var idleSide = 4 #variable para determinar donde debe mirar en idle y para ver donde sale el disparo
 var shootDirecction = 4
 var moveDireccion = Vector2.ZERO
+var playerCollision = false
+
 
 signal playerShoot(shuriken, position, direction)
 
@@ -22,7 +24,6 @@ func _ready():
 	animationPlayer.play("idle_right")
 	lifeBar.max_value = playerLife #configuro la vida maxima posible
 	lifeBar.value = playerLife #configuro la vida maxima al iniciar
-
 
 func _process(delta):
 	movePlayer()
@@ -78,27 +79,34 @@ func shoot():
 		print("Tira shuriken")
 		
 func _on_PlayerBody_area_entered(area):
-	if area.is_in_group("weapon"): #si el body es el shuriken muere el enemigo
-		if playerLife > 0: #si es mas de cero le resto vida
-			flickerFlash()
-			playerLife -= 20
-			lifeBar.value = playerLife
-			print("Vida del player " + str(playerLife))
-		if playerLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
-			queue_free()
-			area.queue_free()
-			print("Player muerto")
+	if area.is_in_group("weapon"): #pregunto si lo que entra en el area es un shuriken
+		if !playerCollision: #si recibio un golpe recientemente espera un rato
+			enemyDamage(20)
 
 func _on_PlayerBody_body_entered(body):
 	if body.is_in_group("enemies"):
-		print("Player muerto")
-		queue_free()
+		
+		if !playerCollision: #si recibio un golpe recientemente espera un rato
+			enemyDamage(50)
 
-func flickerFlash():
+func flickerFlash(): #cuando se llama esta func se dispara el timer
 	sprite.material.set_shader_param("flashModifier",1)
 	sprite.material.set_shader_param("changeSprite",true)
+	playerCollision = true
 	flashTimer.start()
 	
-func _on_FlashTimer_timeout():
+func _on_FlashTimer_timeout(): #cuando se acaba el tiempo vuelve todo a la normalidad
 	sprite.material.set_shader_param("flashModifier",0)
 	sprite.material.set_shader_param("changeSprite",false)
+	playerCollision = false
+
+func enemyDamage(damage): #daño recibido por parte de los enemigos o armas
+	if playerLife > 0: #si es mas de cero le resto vida
+		flickerFlash()
+		playerLife -= damage
+		lifeBar.value = playerLife
+		print("Vida del player " + str(playerLife))
+	if playerLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
+		queue_free()
+		#area.queue_free()
+		print("Player muerto")
