@@ -4,21 +4,23 @@ export (int) var playerSpeed = 100
 export (PackedScene) var Shuriken
 
 export var shootingTime = 2.0 #tiempo por disparo
-export var waitShoot = 1.0 #tiempo de espera hasta el proximo disparo
+export var waitShoot = 0.5 #tiempo de espera hasta el proximo disparo
 export var playerLife = 200 #Vida del player
 
 onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var lifeBar = $LifeBar
 onready var flashTimer = $FlashTimer
+onready var powerUpTimer = $PowerUpTimer 
 
 var idleSide = 4 #variable para determinar donde debe mirar en idle y para ver donde sale el disparo
 var shootDirecction = 4
 var moveDireccion = Vector2.ZERO
 var playerCollision = false
+var playerDamage = 20
+var shurikenType = 0
 
-
-signal playerShoot(shuriken, position, direction)
+#signal playerShoot(shuriken, position, direction)
 
 func _ready():
 	animationPlayer.play("idle_right")
@@ -73,21 +75,22 @@ func shoot():
 			4:shuriken_instance.position = Vector2(position.x + 18,position.y)
 		
 		shuriken_instance.objectToKill = 2 #objetivo enemigo
-		shuriken_instance.dir = shootDirecction
+		shuriken_instance.shurikenDirection = shootDirecction
+		shuriken_instance.shurikenType = shurikenType
+		print("Tipo de Shuriken " + str(shurikenType))
 		get_parent().add_child(shuriken_instance)
-		#emit_signal("playerShoot", shuriken_instance, weaponStart.global_position, shuriken_instance.dir)
-		print("Tira shuriken")
 		
 func _on_PlayerBody_area_entered(area):
 	if area.is_in_group("weapon"): #pregunto si lo que entra en el area es un shuriken
 		if !playerCollision: #si recibio un golpe recientemente espera un rato
-			enemyDamage(20)
+			enemyDamage(playerDamage)
+	if area.is_in_group("powerup"): #pregunto si lo que entra en el area es un power up
+		powerUpTimer.start()
 
 func _on_PlayerBody_body_entered(body):
 	if body.is_in_group("enemies"):
-		
 		if !playerCollision: #si recibio un golpe recientemente espera un rato
-			enemyDamage(50)
+			enemyDamage(playerDamage)
 
 func flickerFlash(): #cuando se llama esta func se dispara el timer
 	sprite.material.set_shader_param("flashModifier",1)
@@ -105,8 +108,9 @@ func enemyDamage(damage): #daño recibido por parte de los enemigos o armas
 		flickerFlash()
 		playerLife -= damage
 		lifeBar.value = playerLife
-		print("Vida del player " + str(playerLife))
 	if playerLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
 		queue_free()
-		#area.queue_free()
-		print("Player muerto")
+
+func _on_PowerUpTimer_timeout():
+	shurikenType = 0
+	

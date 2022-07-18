@@ -77,27 +77,21 @@ func setPlayerDirection(direction): #indico para donde debe mirar y disparar
 		
 func _on_PlayerDetector_body_entered(body):
 	if body.is_in_group("player"):
-		print("Detecta player")
 		target = body
-	if body.is_in_group("enemies"):
-		print("Colision con otro enemigo")
 	
 func _on_PlayerDetector_body_exited(body):
 	if body.is_in_group("player"):
-		print("No detecta player")
 		target = null
 	
 func _on_EnemyBody_area_entered(area):
 	if area.is_in_group("weapon"): #si el body es el shuriken muere el enemigo
 		if enemyLife > 0: #si es mas de cero le resto vida
-			enemyLife -= 20
+			enemyLife -= area.shurikenDamage
 			flickerFlash()
 			lifeBar.value = enemyLife
-			print("Vida del enemigo " + str(enemyLife))
 		if enemyLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
 			queue_free()
 			area.queue_free()
-			#emit_signal("dead")
 
 func shoot():
 	if (shootingTime >= waitShoot):
@@ -111,10 +105,10 @@ func shoot():
 			4:shuriken_instance.position = Vector2(position.x + 23,position.y)
 		
 		shuriken_instance.objectToKill = 1 #objetivo player
-		shuriken_instance.dir = shootDirecction
+		shuriken_instance.shurikenDirection = shootDirecction
+		shuriken_instance.shurikenType = 0
+		
 		get_parent().add_child(shuriken_instance)
-		#emit_signal("playerShoot", shuriken_instance, weaponStart.global_position, shuriken_instance.dir)
-		print("Tira shuriken enemigo")
 
 func flickerFlash():
 	sprite.material.set_shader_param("flashModifier",1)

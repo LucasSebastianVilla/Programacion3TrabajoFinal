@@ -1,7 +1,39 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/shuriken_normal.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Shuriken.gd" type="Script" id=2]
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float speedTime = 6.0;//tiempo de titileo
+uniform int changeSprite = 0;
+uniform bool fullSprite = false;
+
+void fragment ()
+{
+	vec4 final_color = texture(TEXTURE, UV);//obtengo un nuevo color de la tex orig y el color a cambiar
+	COLOR = texture(TEXTURE,UV);//esta asignacion es para que el personaje se mantenga original
+	
+	switch(changeSprite){
+		case 1: final_color = vec4(1.0,0.0,0.0,1.0) * texture(TEXTURE, UV) * mod(TIME*speedTime, 1.0); break; //rojo para simular fuego
+		case 2: final_color = vec4(0.0,1.0,0.0,1.0) * texture(TEXTURE, UV) * mod(TIME*speedTime, 1.0); break;//verde para simular veneno
+		case 3: final_color = vec4(0.0,0.0,1.0,1.0) * texture(TEXTURE, UV) * mod(TIME*speedTime, 1.0); break;//azul para simular hielo
+		//default: final_color = COLOR; //color por defecto
+	}
+
+	//final_color *= mod(TIME*speedTime, 1.0);//hago que titile la imagen
+	
+	if(fullSprite){//crea animacion y cambio de color en todo el sprite
+		COLOR = final_color;//este final_color es el original que se prepara al comienzo del fragment
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/speedTime = 6.0
+shader_param/changeSprite = 0
+shader_param/fullSprite = false
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -29,9 +61,9 @@ collision_mask = 31
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 6 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 3 )
-frame = 1
 speed_scale = 2.0
 playing = true
 
@@ -39,5 +71,8 @@ playing = true
 scale = Vector2( 0.7, 0.7 )
 shape = SubResource( 4 )
 
+[node name="PowerUp" type="Timer" parent="."]
+
 [connection signal="area_entered" from="." to="." method="_on_Shuriken_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Shuriken_body_entered"]
+[connection signal="timeout" from="PowerUp" to="." method="_on_PowerUp_timeout"]

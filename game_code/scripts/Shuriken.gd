@@ -1,34 +1,51 @@
 extends Area2D
 
-export var destroyShuriken = 2.5 #tiempo en que se destruye el shuriken
-export (int) var velocidad = 200 #velocidad del shuriken
+export var shurikenDestroy = 2.5 #tiempo en que se destruye el shuriken
+export (int) var shurikenSpeed = 200 #velocidad del shuriken
+export (int) var shurikenType = 0 #tipo de shuriken, si tiene power ups o no
+
+onready var animatedSprite = $AnimatedSprite
+onready var powerUp = $PowerUp
 
 var objectToKill = 0 #configuro a quien debe destruir, 0 nadie 1 player 2 enemigos
-var dir = 0 #direccion del disparo
+var shurikenDirection = 0 #direccion del disparo
+var shurikenDamage = 30
 
 func _ready():
-	pass
-	#connect("area_entered",self,"_on_shoot_body_entered")
+	shurikenPower(shurikenType)
 
 func _physics_process(delta):
-	match dir: #elijo para donde va el shuriken
-		1: position.y -= delta * velocidad
-		2: position.y += delta * velocidad
-		3: position.x -= delta * velocidad
-		4: position.x += delta * velocidad
+	match shurikenDirection: #elijo para donde va el shuriken
+		1: position.y -= delta * shurikenSpeed
+		2: position.y += delta * shurikenSpeed
+		3: position.x -= delta * shurikenSpeed
+		4: position.x += delta * shurikenSpeed
 	
-	destroyShuriken-=delta
+	shurikenDestroy-=delta
 	
-	if destroyShuriken<=0:
+	if shurikenDestroy<=0:
 		queue_free()
-
+		
 func _on_Shuriken_body_entered(body):
 	if body.is_in_group("player") && objectToKill == 1: #si el body es el player se destruye
-		print("Mata player")
 		queue_free()
 	elif body.is_in_group("enemies") && objectToKill == 2: #si el body es enemigo se destruye
-		print("Mata enemigos")
 		queue_free()
 	else: #si el body es otra cosa se destruye
-		print("se rompe contra los objetos")
 		queue_free()
+
+func shurikenPower(powerType):
+	animatedSprite.material.set_shader_param("changeSprite",powerType)
+	animatedSprite.material.set_shader_param("fullSprite",true)
+	
+	match powerType:
+		0: shurikenDamage
+		1: shurikenDamage += 20
+		2: shurikenDamage += 30
+		3: shurikenDamage += 40
+	powerUp.start()
+
+#func _on_PowerUp_timeout():
+#	animatedSprite.material.set_shader_param("changeSprite",0)
+#	animatedSprite.material.set_shader_param("fullSprite",false)
+

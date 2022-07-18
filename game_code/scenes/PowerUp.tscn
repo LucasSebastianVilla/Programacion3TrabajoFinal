@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/dragons_powerup.png" type="Texture" id=1]
+[ext_resource path="res://scripts/PowerUp.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 13.5, 12.5 )
+
+[node name="PowerUp" type="Area2D" groups=["powerup"]]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 3
+region_rect = Rect2( 32, 0, 0, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, 0.5 )
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_PowerUp_body_entered"]
