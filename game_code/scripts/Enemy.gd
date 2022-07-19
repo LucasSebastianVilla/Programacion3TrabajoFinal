@@ -9,8 +9,6 @@ onready var flashTimer = $FlashTimer
 
 export var shootingTime = 2.0 #tiempo por disparo
 export var waitShoot = 1.0 #tiempo de espera hasta el proximo disparo
-export var enemyLife = 100
-export var enemyDamage = 20
 export var enemyType = 0 #Selecciono el tipo de enemigo para saber como se comporta
 						 #0 nada 1 warrior 2 ranger 3 sorcer 4 samurai 5 miniboss 6 boss
 
@@ -20,10 +18,14 @@ var moveDireccion = Vector2.ZERO
 var dir = Vector2.ZERO
 var shootDirecction = 1 #variable para determinar donde debe mirar en idle y para ver donde sale el disparo
 var target
+var enemyTypeAttack #selecciono el tipo de shuriken que va a tirar
+var enemyDamage #tipo de daño que causa al player
+var enemyLife = 100 #vida del enemigo
 
 signal dead
 
 func _ready():
+	selectTypeEnemy(enemyType)
 	moveDireccion.x = -1 #move_left
 	animationPlayer.play("walk_left")
 	lifeBar.max_value = enemyLife #configuro la vida maxima posible
@@ -43,7 +45,6 @@ func flip():
 		moveDireccion.x = 1 #move_right
 		moveDireccion.y = 0
 	
-	
 func _physics_process(delta):
 	moveEnemy()
 	shootingTime += delta
@@ -56,7 +57,10 @@ func moveEnemy():
 		dir = position.direction_to(target.position).normalized()
 		if dist<distance:
 			moveDireccion = Vector2(int(round(dir.x)), int(round(dir.y)))
-			if enemyType == 2:
+			if enemyType >= 2:
+				shoot()
+			if enemyType == 6:
+				enemyTypeAttack = 4
 				shoot()
 	else:
 		flip()
@@ -106,7 +110,7 @@ func shoot():
 		
 		shuriken_instance.objectToKill = 1 #objetivo player
 		shuriken_instance.shurikenDirection = shootDirecction
-		shuriken_instance.shurikenType = 0
+		shuriken_instance.shurikenType = enemyTypeAttack
 		
 		get_parent().add_child(shuriken_instance)
 
@@ -118,3 +122,30 @@ func flickerFlash():
 func _on_FlashTimer_timeout():
 	sprite.material.set_shader_param("flashModifier",0)
 	sprite.material.set_shader_param("changeSprite",false)
+
+func selectTypeEnemy(enemyType):
+	match enemyType:
+		0: pass #no hay enemigo
+		1: #warrior, enemigo simple
+			enemyDamage = 20 
+			enemyLife = 100
+		2: #ranger, enemigo que dispara simple
+			enemyTypeAttack = 0
+			enemyDamage = 30
+			enemyLife = 150
+		3: #sorcer, enemigo con ataque shuriken fuego
+			enemyTypeAttack = 1
+			enemyDamage = 40
+			enemyLife = 200
+		4: #samurai, enemigo con ataque shuriken veneno
+			enemyTypeAttack = 2
+			enemyDamage = 50
+			enemyLife = 250
+		5: #miniboss, enemigo con ataque shuriken hielo
+			enemyTypeAttack = 3
+			enemyDamage = 60
+			enemyLife = 300
+		6: #boss, enemigo con ataque shuriken aleatorio en cada tiro
+			enemyTypeAttack = 0
+			enemyDamage = 70
+			enemyLife = 400

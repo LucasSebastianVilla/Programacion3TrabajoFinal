@@ -5,7 +5,6 @@ export (PackedScene) var Shuriken
 
 export var shootingTime = 2.0 #tiempo por disparo
 export var waitShoot = 0.5 #tiempo de espera hasta el proximo disparo
-export var playerLife = 200 #Vida del player
 
 onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite
@@ -13,14 +12,13 @@ onready var lifeBar = $LifeBar
 onready var flashTimer = $FlashTimer
 onready var powerUpTimer = $PowerUpTimer 
 
+var playerMaxLife = 200 #Vida del player
+var playerLife = playerMaxLife #Vida del player
+var playerCollision = false
 var idleSide = 4 #variable para determinar donde debe mirar en idle y para ver donde sale el disparo
 var shootDirecction = 4
 var moveDireccion = Vector2.ZERO
-var playerCollision = false
-var playerDamage = 20
 var shurikenType = 0
-
-#signal playerShoot(shuriken, position, direction)
 
 func _ready():
 	animationPlayer.play("idle_right")
@@ -77,20 +75,33 @@ func shoot():
 		shuriken_instance.objectToKill = 2 #objetivo enemigo
 		shuriken_instance.shurikenDirection = shootDirecction
 		shuriken_instance.shurikenType = shurikenType
-		print("Tipo de Shuriken " + str(shurikenType))
+		
 		get_parent().add_child(shuriken_instance)
 		
 func _on_PlayerBody_area_entered(area):
 	if area.is_in_group("weapon"): #pregunto si lo que entra en el area es un shuriken
 		if !playerCollision: #si recibio un golpe recientemente espera un rato
-			enemyDamage(playerDamage)
+			enemyDamage(area.shurikenDamage)
 	if area.is_in_group("powerup"): #pregunto si lo que entra en el area es un power up
-		powerUpTimer.start()
+		match area.powerUpType:
+			0, 1, 2: powerUpTimer.start() #powerup de shuriken
+			3: #powerup de restaurar vida 
+				playerLife = playerMaxLife
+				lifeBar.max_value = playerLife
+				lifeBar.value = playerLife
+			4: #powerup de incrementar vida permanentemente
+				playerMaxLife += 100 
+				playerLife = playerMaxLife
+				lifeBar.max_value = playerLife
+				lifeBar.value = playerLife
+			5: #powerup de incrementar velocidad
+				playerSpeed = 150
+				powerUpTimer.start() 
 
 func _on_PlayerBody_body_entered(body):
 	if body.is_in_group("enemies"):
 		if !playerCollision: #si recibio un golpe recientemente espera un rato
-			enemyDamage(playerDamage)
+			enemyDamage(body.enemyDamage)
 
 func flickerFlash(): #cuando se llama esta func se dispara el timer
 	sprite.material.set_shader_param("flashModifier",1)
@@ -113,4 +124,5 @@ func enemyDamage(damage): #daño recibido por parte de los enemigos o armas
 
 func _on_PowerUpTimer_timeout():
 	shurikenType = 0
+	playerSpeed = 100
 	

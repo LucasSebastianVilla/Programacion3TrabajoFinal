@@ -7,11 +7,12 @@
 extents = Vector2( 13.5, 12.5 )
 
 [node name="PowerUp" type="Area2D" groups=["powerup"]]
+collision_layer = 32
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-hframes = 3
+hframes = 6
 region_rect = Rect2( 32, 0, 0, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

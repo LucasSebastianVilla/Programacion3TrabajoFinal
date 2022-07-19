@@ -174,7 +174,7 @@ tracks/0/keys = {
 extents = Vector2( 12.5, 14.5 )
 
 [node name="Player" type="KinematicBody2D" groups=["player"]]
-collision_mask = 30
+collision_mask = 62
 script = ExtResource( 1 )
 Shuriken = ExtResource( 3 )
 
@@ -209,6 +209,8 @@ zoom = Vector2( 0.4, 0.4 )
 process_mode = 0
 limit_left = 0
 limit_top = 0
+limit_right = 2080
+limit_bottom = 830
 limit_smoothed = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true

@@ -1,20 +1,19 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/lifebar_red.png" type="Texture" id=1]
 [ext_resource path="res://assets/lifebar_green.png" type="Texture" id=2]
-[ext_resource path="res://scripts/Enemy.gd" type="Script" id=3]
-[ext_resource path="res://assets/chars.png" type="Texture" id=4]
-[ext_resource path="res://assets/lifebar_black.png" type="Texture" id=5]
-[ext_resource path="res://shaders/flash.tres" type="Shader" id=6]
-[ext_resource path="res://scenes/Shuriken.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/chars.png" type="Texture" id=3]
+[ext_resource path="res://assets/lifebar_black.png" type="Texture" id=4]
+[ext_resource path="res://shaders/flash.tres" type="Shader" id=5]
+[ext_resource path="res://scripts/Enemy.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.5, 12.5 )
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
-shader = ExtResource( 6 )
-shader_param/flashColor = Color( 0.458824, 0.0431373, 0.54902, 0.301961 )
+shader = ExtResource( 5 )
+shader_param/flashColor = Color( 0.47451, 0.12549, 0.486275, 0.301961 )
 shader_param/flashModifier = 1.0
 shader_param/speedTime = 6.0
 shader_param/changeSprite = false
@@ -30,8 +29,8 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 4 ]
+"update": 0,
+"values": [ 58 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -48,7 +47,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 3, 4, 5, 4 ]
+"values": [ 57, 58, 59, 58 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -65,7 +64,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 15, 16, 17, 16 ]
+"values": [ 69, 70, 71, 70 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -82,7 +81,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 27, 28, 29, 28 ]
+"values": [ 81, 82, 83, 82 ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -99,20 +98,16 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 39, 40, 41, 40 ]
+"values": [ 93, 94, 95, 94 ]
 }
 
 [sub_resource type="CircleShape2D" id=8]
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 11, 13.5 )
+extents = Vector2( 12, 14.5 )
 
-[node name="EnemyMiniBoss" type="KinematicBody2D" groups=["enemies"]]
-collision_layer = 2
-collision_mask = 31
-script = ExtResource( 3 )
-Shuriken = ExtResource( 7 )
-enemyType = 5
+[node name="EnemyBoss" type="KinematicBody2D"]
+script = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 1.5 )
@@ -120,10 +115,10 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 hframes = 12
 vframes = 8
-frame = 4
+frame = 58
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
@@ -176,13 +171,8 @@ margin_bottom = -16.0
 rect_scale = Vector2( 0.8, 0.8 )
 value = 100.0
 texture_under = ExtResource( 1 )
-texture_over = ExtResource( 5 )
+texture_over = ExtResource( 4 )
 texture_progress = ExtResource( 2 )
 
 [node name="FlashTimer" type="Timer" parent="."]
 wait_time = 0.3
-
-[connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
-[connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
-[connection signal="area_entered" from="EnemyBody" to="." method="_on_EnemyBody_area_entered"]
-[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]

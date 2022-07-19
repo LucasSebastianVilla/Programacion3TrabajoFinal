@@ -40,10 +40,11 @@ func shurikenPower(powerType):
 	
 	match powerType:
 		0: shurikenDamage
-		1: shurikenDamage += 20
-		2: shurikenDamage += 30
-		3: shurikenDamage += 40
-	powerUp.start()
+		1: shurikenDamage += 30 #fuego
+		2: shurikenDamage += 40 #veneno
+		3: shurikenDamage += 50 #hielo
+		
+	powerUp.start() #inicio el power up si tiene
 
 #func _on_PowerUp_timeout():
 #	animatedSprite.material.set_shader_param("changeSprite",0)
