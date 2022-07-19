@@ -82,6 +82,8 @@ func setPlayerDirection(direction): #indico para donde debe mirar y disparar
 func _on_PlayerDetector_body_entered(body):
 	if body.is_in_group("player"):
 		target = body
+	if body.is_in_group("enemies"):
+		flip()
 	
 func _on_PlayerDetector_body_exited(body):
 	if body.is_in_group("player"):
@@ -96,6 +98,8 @@ func _on_EnemyBody_area_entered(area):
 		if enemyLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
 			queue_free()
 			area.queue_free()
+	if area.is_in_group("walls"):
+		flip()
 
 func shoot():
 	if (shootingTime >= waitShoot):
