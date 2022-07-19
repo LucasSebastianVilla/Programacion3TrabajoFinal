@@ -6,6 +6,7 @@ onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var lifeBar = $LifeBar
 onready var flashTimer = $FlashTimer
+onready var enemyName = $EnemyName
 
 export var shootingTime = 2.0 #tiempo por disparo
 export var waitShoot = 1.0 #tiempo de espera hasta el proximo disparo
@@ -131,25 +132,31 @@ func selectTypeEnemy(enemyType):
 	match enemyType:
 		0: pass #no hay enemigo
 		1: #warrior, enemigo simple
+			$EnemyName.text = "Warrior"
 			enemyDamage = 20 
 			enemyLife = 100
 		2: #ranger, enemigo que dispara simple
+			$EnemyName.text = "Ranger"
 			enemyTypeAttack = 0
 			enemyDamage = 30
 			enemyLife = 150
 		3: #sorcer, enemigo con ataque shuriken fuego
+			$EnemyName.text = "Sorcer"
 			enemyTypeAttack = 1
 			enemyDamage = 40
 			enemyLife = 200
 		4: #samurai, enemigo con ataque shuriken veneno
+			$EnemyName.text = "Samurai"
 			enemyTypeAttack = 2
 			enemyDamage = 50
 			enemyLife = 250
 		5: #miniboss, enemigo con ataque shuriken hielo
+			$EnemyName.text = "Body Guard"
 			enemyTypeAttack = 3
 			enemyDamage = 60
 			enemyLife = 300
 		6: #boss, enemigo con ataque shuriken aleatorio en cada tiro
+			$EnemyName.text = "Shogun"
 			enemyTypeAttack = 0
 			enemyDamage = 70
 			enemyLife = 400
