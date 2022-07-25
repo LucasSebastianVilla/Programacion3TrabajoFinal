@@ -7,12 +7,14 @@ onready var sprite = $Sprite
 onready var lifeBar = $LifeBar
 onready var flashTimer = $FlashTimer
 onready var enemyName = $EnemyName
+onready var enemyHurt = $EnemyHurt
 
 export var shootingTime = 2.0 #tiempo por disparo
 export var waitShoot = 1.0 #tiempo de espera hasta el proximo disparo
 export var enemyType = 0 #Selecciono el tipo de enemigo para saber como se comporta
 						 #0 nada 1 warrior 2 ranger 3 sorcer 4 samurai 5 miniboss 6 boss
 
+var floaty_text_scene = preload("res://scenes/FloatingText.tscn")
 var speed = 50 # velocidad del enemigo
 var distance = 120 # Distancia entre el enemigo y el player
 var moveDireccion = Vector2.ZERO
@@ -92,8 +94,10 @@ func _on_PlayerDetector_body_exited(body):
 	
 func _on_EnemyBody_area_entered(area):
 	if area.is_in_group("weapon"): #si el body es el shuriken muere el enemigo
+		enemyHurt.play()
 		if enemyLife > 0: #si es mas de cero le resto vida
 			enemyLife -= area.shurikenDamage
+			_on_CreateFloatingTextButton("Damage -" + str(area.shurikenDamage), position.x, position.y)
 			flickerFlash()
 			lifeBar.value = enemyLife
 		if enemyLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
@@ -115,6 +119,10 @@ func shoot():
 		
 		shuriken_instance.objectToKill = 1 #objetivo player
 		shuriken_instance.shurikenDirection = shootDirecction
+		
+		if enemyType == 6: #pregunto si es el boss
+			enemyTypeAttack = randi() % 4
+			
 		shuriken_instance.shurikenType = enemyTypeAttack
 		
 		get_parent().add_child(shuriken_instance)
@@ -157,6 +165,19 @@ func selectTypeEnemy(enemyType):
 			enemyLife = 300
 		6: #boss, enemigo con ataque shuriken aleatorio en cada tiro
 			$EnemyName.text = "Shogun"
-			enemyTypeAttack = 0
+			enemyTypeAttack = 0 #el ataque del jefe es aleatorio entre todos los tipos
 			enemyDamage = 70
 			enemyLife = 400
+
+func _on_CreateFloatingTextButton(text, x, y):
+	var floaty_text = floaty_text_scene.instance()
+	
+	floaty_text.typeText = 1 #color del texto
+	floaty_text.position = Vector2(x, y) #posiciona el texto flotante donde esta el nodo generador
+	floaty_text.velocity = Vector2(rand_range(-50, 50), -100) #velocidad de movimiento
+	floaty_text.modulate = Color(rand_range(0.7, 1), rand_range(0.7, 1), rand_range(0.7, 1), 1.0)
+	
+	floaty_text.text = text #texto a mostrar
+	
+	get_parent().add_child(floaty_text)
+	

@@ -1,17 +1,23 @@
 extends KinematicBody2D
 
-export (int) var playerSpeed = 100
-export (PackedScene) var Shuriken
+export (int) var playerSpeed = 100 #velocidad del player
+export (PackedScene) var Shuriken #traigo la escena del shuriken
 
 export var shootingTime = 2.0 #tiempo por disparo
 export var waitShoot = 0.5 #tiempo de espera hasta el proximo disparo
+export (int) var limit_right #esta variable y la de abajo son para asignar el limite de la camara
+export (int) var limit_bottom
 
 onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var lifeBar = $LifeBar
 onready var flashTimer = $FlashTimer
-onready var powerUpTimer = $PowerUpTimer 
+onready var powerUpTimer = $PowerUpTimer
+onready var camera2d = $Camera2D
+onready var pickUpSound = $PickUpSound
+onready var playerHurt = $PlayerHurt
 
+var floaty_text_scene = preload("res://scenes/FloatingText.tscn")
 var playerMaxLife = 200 #Vida del player
 var playerLife = playerMaxLife #Vida del player
 var playerCollision = false
@@ -21,7 +27,13 @@ var moveDireccion = Vector2.ZERO
 var shurikenType = 0
 
 func _ready():
-	animationPlayer.play("idle_right")
+	self.global_position = Global.player_initial_map_position
+	camera2d.limit_right = limit_right
+	camera2d.limit_bottom = limit_bottom
+	
+	idleSide = Global.player_facing_direction
+	movePlayer()
+	
 	lifeBar.max_value = playerLife #configuro la vida maxima posible
 	lifeBar.value = playerLife #configuro la vida maxima al iniciar
 
@@ -30,7 +42,7 @@ func _process(delta):
 	shootingTime += delta
 	move_and_slide(moveDireccion * playerSpeed)
 	
-func movePlayer():
+func movePlayer(): #funcion para movimiento de player
 	moveDireccion = Vector2.ZERO
 	
 	if Input.is_action_pressed("ui_up"):
@@ -56,12 +68,12 @@ func movePlayer():
 			3:	animationPlayer.play("idle_left")
 			4:	animationPlayer.play("idle_right")
 
-func _unhandled_input(event):
+func _unhandled_input(event): #si disparo tomo la posicion en la que mira el player
 	if event.is_action_pressed("ui_accept"):
 		shootDirecction=idleSide
 		shoot()
 		
-func shoot():
+func shoot(): #funcion que controla el disparo del shuriken
 	if (shootingTime >= waitShoot):
 		var shuriken_instance = Shuriken.instance()
 		shootingTime = 0
@@ -83,18 +95,30 @@ func _on_PlayerBody_area_entered(area):
 		if !playerCollision: #si recibio un golpe recientemente espera un rato
 			enemyDamage(area.shurikenDamage)
 	if area.is_in_group("powerup"): #pregunto si lo que entra en el area es un power up
+		pickUpSound.play() #sonido del powerup
 		match area.powerUpType:
-			0, 1, 2: powerUpTimer.start() #powerup de shuriken
+			0:	#powerup de shuriken fuego
+				powerUpTimer.start() 
+				_on_CreateFloatingTextButton("Fire Damage", area.position.x, area.position.y)
+			1:	#powerup de shuriken veneno
+				powerUpTimer.start() 
+				_on_CreateFloatingTextButton("Poison Damage", area.position.x, area.position.y)
+			2: #powerup de shuriken hielo
+				powerUpTimer.start() 
+				_on_CreateFloatingTextButton("Ice Damage", area.position.x, area.position.y)
 			3: #powerup de restaurar vida 
+				_on_CreateFloatingTextButton("Restore Life", area.position.x, area.position.y)
 				playerLife = playerMaxLife
 				lifeBar.max_value = playerLife
 				lifeBar.value = playerLife
 			4: #powerup de incrementar vida permanentemente
+				_on_CreateFloatingTextButton("Increase Life", area.position.x, area.position.y)
 				playerMaxLife += 100 
 				playerLife = playerMaxLife
 				lifeBar.max_value = playerLife
 				lifeBar.value = playerLife
 			5: #powerup de incrementar velocidad
+				_on_CreateFloatingTextButton("Increase Speed", area.position.x, area.position.y)
 				playerSpeed = 150
 				powerUpTimer.start() 
 
@@ -117,12 +141,26 @@ func _on_FlashTimer_timeout(): #cuando se acaba el tiempo vuelve todo a la norma
 func enemyDamage(damage): #daño recibido por parte de los enemigos o armas
 	if playerLife > 0: #si es mas de cero le resto vida
 		flickerFlash()
+		_on_CreateFloatingTextButton("Damage - " + str(damage), position.x, position.y)
 		playerLife -= damage
 		lifeBar.value = playerLife
+		playerHurt.play()
 	if playerLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
+		Global.gameFinalCondition = 2
+		get_tree().change_scene("res://scenes/EndGame.tscn")
 		queue_free()
 
-func _on_PowerUpTimer_timeout():
+func _on_PowerUpTimer_timeout(): #cuando se termine el tiempo la velocidad y el shuriken vuelven a la normalidad
 	shurikenType = 0
 	playerSpeed = 100
 	
+func _on_CreateFloatingTextButton(text, x, y): #texto flotante para mostrar los diferentes mensajes
+	var floaty_text = floaty_text_scene.instance()
+	floaty_text.typeText = 2 #color del texto
+	floaty_text.position = Vector2(x, y) #posiciona el texto flotante donde esta el nodo generador
+	floaty_text.velocity = Vector2(rand_range(-50, 50), -100) #velocidad de movimiento
+	floaty_text.modulate = Color(rand_range(0.7, 1), rand_range(0.7, 1), rand_range(0.7, 1), 1.0)
+	
+	floaty_text.text = text #texto a mostrar
+		
+	get_parent().add_child(floaty_text)

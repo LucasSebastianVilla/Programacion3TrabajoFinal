@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 PauseScreen="*res://scenes/PauseScreen.tscn"
+Global="*res://scripts/Global.gd"
 
 [input]
 

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Ninja Star Sound.mp3-0a0d8ff8203ed5016dc5adfd335b5415.mp3str"
+
+[deps]
+
+source_file="res://assets/Ninja Star Sound.mp3"
+dest_files=[ "res://.import/Ninja Star Sound.mp3-0a0d8ff8203ed5016dc5adfd335b5415.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

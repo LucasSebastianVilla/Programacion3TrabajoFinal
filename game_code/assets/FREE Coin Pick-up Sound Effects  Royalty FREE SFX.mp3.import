@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/FREE Coin Pick-up Sound Effects  Royalty FREE SFX.mp3-4e3ef7eaa709c5c226c693ca7add488b.mp3str"
+
+[deps]
+
+source_file="res://assets/FREE Coin Pick-up Sound Effects  Royalty FREE SFX.mp3"
+dest_files=[ "res://.import/FREE Coin Pick-up Sound Effects  Royalty FREE SFX.mp3-4e3ef7eaa709c5c226c693ca7add488b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

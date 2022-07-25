@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Música Kung Fu China  Música Para Practicar Kung Fu  Música Para Entrenar Kung Fu.mp3-21d3e52590eb1210276d66c57beb164a.mp3str"
+
+[deps]
+
+source_file="res://assets/Música Kung Fu China  Música Para Practicar Kung Fu  Música Para Entrenar Kung Fu.mp3"
+dest_files=[ "res://.import/Música Kung Fu China  Música Para Practicar Kung Fu  Música Para Entrenar Kung Fu.mp3-21d3e52590eb1210276d66c57beb164a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
