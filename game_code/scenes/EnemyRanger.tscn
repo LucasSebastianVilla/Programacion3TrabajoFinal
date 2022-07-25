@@ -176,8 +176,6 @@ collision_mask = 26
 collide_with_areas = true
 
 [node name="EnemyBody" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBody"]
 position = Vector2( 0, 0.5 )

@@ -118,6 +118,8 @@ use_filter = true
 font_data = ExtResource( 8 )
 
 [node name="EnemySorcer" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 31
 script = ExtResource( 6 )
 Shuriken = ExtResource( 7 )
 
@@ -170,8 +172,6 @@ cast_to = Vector2( 15, 0 )
 collision_mask = 26
 
 [node name="EnemyBody" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBody"]
 position = Vector2( 0, 0.5 )

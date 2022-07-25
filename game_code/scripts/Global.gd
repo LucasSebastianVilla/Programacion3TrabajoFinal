@@ -6,6 +6,7 @@ var player_door_map_position = Vector2.ZERO
 var player_facing_direction = 4 #orientacion del player
 var scene_to_back = "" #escena donde regresa
 var gameFinalCondition = 1 #1 gana 2 pierde
+var parallaxScroll = true #controlo el parallax del menu
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

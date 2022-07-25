@@ -62,8 +62,8 @@ func moveEnemy():
 			moveDireccion = Vector2(int(round(dir.x)), int(round(dir.y)))
 			if enemyType >= 2:
 				shoot()
-			if enemyType == 6:
-				enemyTypeAttack = 4
+			if enemyType == 6: #pregunto si es el boss
+				enemyTypeAttack = randi() % 4
 				shoot()
 	else:
 		flip()
@@ -103,6 +103,10 @@ func _on_EnemyBody_area_entered(area):
 		if enemyLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
 			queue_free()
 			area.queue_free()
+			if enemyType == 6:
+				Global.gameFinalCondition = 1
+				get_tree().change_scene("res://scenes/EndGame.tscn")
+				
 	if area.is_in_group("walls"):
 		flip()
 
@@ -119,10 +123,6 @@ func shoot():
 		
 		shuriken_instance.objectToKill = 1 #objetivo player
 		shuriken_instance.shurikenDirection = shootDirecction
-		
-		if enemyType == 6: #pregunto si es el boss
-			enemyTypeAttack = randi() % 4
-			
 		shuriken_instance.shurikenType = enemyTypeAttack
 		
 		get_parent().add_child(shuriken_instance)
@@ -157,17 +157,17 @@ func selectTypeEnemy(enemyType):
 			$EnemyName.text = "Samurai"
 			enemyTypeAttack = 2
 			enemyDamage = 50
-			enemyLife = 250
+			enemyLife = 300
 		5: #miniboss, enemigo con ataque shuriken hielo
 			$EnemyName.text = "Body Guard"
 			enemyTypeAttack = 3
 			enemyDamage = 60
-			enemyLife = 300
+			enemyLife = 400
 		6: #boss, enemigo con ataque shuriken aleatorio en cada tiro
 			$EnemyName.text = "Shogun"
 			enemyTypeAttack = 0 #el ataque del jefe es aleatorio entre todos los tipos
 			enemyDamage = 70
-			enemyLife = 400
+			enemyLife = 600
 
 func _on_CreateFloatingTextButton(text, x, y):
 	var floaty_text = floaty_text_scene.instance()

@@ -18,7 +18,7 @@ onready var pickUpSound = $PickUpSound
 onready var playerHurt = $PlayerHurt
 
 var floaty_text_scene = preload("res://scenes/FloatingText.tscn")
-var playerMaxLife = 200 #Vida del player
+var playerMaxLife = 300 #Vida del player
 var playerLife = playerMaxLife #Vida del player
 var playerCollision = false
 var idleSide = 4 #variable para determinar donde debe mirar en idle y para ver donde sale el disparo

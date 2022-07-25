@@ -1,17 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/MainMenuParallax.gd" type="Script" id=1]
 [ext_resource path="res://scripts/MainMenuButtons.gd" type="Script" id=2]
 [ext_resource path="res://assets/backmenu.jpg" type="Texture" id=3]
 [ext_resource path="res://assets/HIROMISAKE.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/intro_music.mp3" type="AudioStream" id=5]
-
-[sub_resource type="DynamicFont" id=1]
-size = 40
-outline_size = 3
-outline_color = Color( 0.109804, 0, 0.172549, 1 )
-use_filter = true
-font_data = ExtResource( 4 )
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/dragons_powerup.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFont" id=2]
 size = 40
@@ -51,6 +46,19 @@ outline_color = Color( 0.4, 0.454902, 0.0156863, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=6]
+size = 33
+outline_size = 1
+outline_color = Color( 0.941176, 0.972549, 0.0156863, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 24
+outline_size = 2
+outline_color = Color( 0.109804, 0, 0.172549, 1 )
+font_data = ExtResource( 4 )
+
 [node name="MainMenu" type="ParallaxBackground"]
 script = ExtResource( 1 )
 
@@ -77,22 +85,41 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -88.5
-margin_top = -146.0
-margin_right = 89.5
+margin_left = -91.5
+margin_top = -216.0
+margin_right = 86.5
+margin_bottom = -12.0
 
 [node name="Play" type="Button" parent="Menu/VBoxButtons"]
 margin_right = 178.0
 margin_bottom = 47.0
 custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 6 )
 text = "Play"
 flat = true
 
-[node name="Exit" type="Button" parent="Menu/VBoxButtons"]
+[node name="History" type="Button" parent="Menu/VBoxButtons"]
 margin_top = 51.0
 margin_right = 178.0
 margin_bottom = 98.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "History"
+flat = true
+
+[node name="Items" type="Button" parent="Menu/VBoxButtons"]
+margin_top = 102.0
+margin_right = 178.0
+margin_bottom = 149.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Items"
+flat = true
+
+[node name="Exit" type="Button" parent="Menu/VBoxButtons"]
+margin_top = 153.0
+margin_right = 178.0
+margin_bottom = 200.0
 custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "Exit"
@@ -131,10 +158,152 @@ custom_fonts/font = SubResource( 4 )
 text = "by Lucas Villa (TP Final-Programación 3)"
 align = 1
 
+[node name="Narrative" type="Control" parent="Menu"]
+visible = false
+margin_right = 1024.0
+margin_bottom = 593.0
+
+[node name="HistoryOfGame" type="RichTextLabel" parent="Menu/Narrative"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -430.0
+margin_top = -113.5
+margin_right = 430.0
+margin_bottom = 279.5
+custom_colors/default_color = Color( 0.223529, 0.152941, 0.0235294, 1 )
+custom_fonts/normal_font = SubResource( 6 )
+meta_underlined = false
+text = "Hiroshi vive tranquilo con su familia en la aldea Flor de loto. 
+
+Los malvados Yakuza al mando del Shogun Hiroito raptan a sus hijos para obligarlo a entregar sus tierras. 
+
+¿Podra nuestro heroe junto con el poder de los dragones misticos rescatar a sus seres queridos?"
+scroll_active = false
+
+[node name="Back" type="Button" parent="Menu/Narrative"]
+margin_left = 725.0
+margin_top = 513.0
+margin_right = 1015.0
+margin_bottom = 589.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Back to menu"
+flat = true
+
+[node name="ItemsOfGame" type="Control" parent="Menu"]
+visible = false
+margin_right = 1021.0
+margin_bottom = 592.0
+
+[node name="RedDragon" type="Sprite" parent="Menu/ItemsOfGame"]
+position = Vector2( 263, 242 )
+texture = ExtResource( 7 )
+hframes = 6
+
+[node name="Description" type="Label" parent="Menu/ItemsOfGame/RedDragon"]
+margin_left = 22.0
+margin_top = -10.0
+margin_right = 484.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.792157, 0.0941176, 0.745098, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Fire Dragon: Shuriken Attack + 30 x 10 seconds"
+
+[node name="GreenDragon" type="Sprite" parent="Menu/ItemsOfGame"]
+position = Vector2( 261, 285 )
+texture = ExtResource( 7 )
+hframes = 6
+frame = 1
+
+[node name="Description" type="Label" parent="Menu/ItemsOfGame/GreenDragon"]
+margin_left = 22.0
+margin_top = -10.0
+margin_right = 484.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.792157, 0.0941176, 0.745098, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Poison Dragon: Shuriken Attack + 40 x 10 seconds"
+
+[node name="BlueDragon" type="Sprite" parent="Menu/ItemsOfGame"]
+position = Vector2( 263, 329 )
+texture = ExtResource( 7 )
+hframes = 6
+frame = 2
+
+[node name="Description" type="Label" parent="Menu/ItemsOfGame/BlueDragon"]
+margin_left = 22.0
+margin_top = -10.0
+margin_right = 484.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.792157, 0.0941176, 0.745098, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Ice Dragon: Shuriken Attack + 50 x 10 seconds"
+
+[node name="RestoreLife" type="Sprite" parent="Menu/ItemsOfGame"]
+position = Vector2( 263, 371 )
+texture = ExtResource( 7 )
+hframes = 6
+frame = 3
+
+[node name="Description" type="Label" parent="Menu/ItemsOfGame/RestoreLife"]
+margin_left = 22.0
+margin_top = -10.0
+margin_right = 484.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.792157, 0.0941176, 0.745098, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Restore Life: Restore player Max Life"
+
+[node name="IncreaseLife" type="Sprite" parent="Menu/ItemsOfGame"]
+position = Vector2( 264, 413 )
+texture = ExtResource( 7 )
+hframes = 6
+frame = 4
+
+[node name="Description" type="Label" parent="Menu/ItemsOfGame/IncreaseLife"]
+margin_left = 22.0
+margin_top = -10.0
+margin_right = 484.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.792157, 0.0941176, 0.745098, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Increase Life: Add 100 HP of life"
+
+[node name="IncreaseSpeed" type="Sprite" parent="Menu/ItemsOfGame"]
+position = Vector2( 261, 455 )
+texture = ExtResource( 7 )
+hframes = 6
+frame = 5
+
+[node name="Description" type="Label" parent="Menu/ItemsOfGame/IncreaseSpeed"]
+margin_left = 22.0
+margin_top = -10.0
+margin_right = 484.0
+margin_bottom = 11.0
+custom_colors/font_color = Color( 0.792157, 0.0941176, 0.745098, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Increase Speed: Add 50 velocity x 10 seconds"
+
+[node name="Back2" type="Button" parent="Menu/ItemsOfGame"]
+margin_left = 725.0
+margin_top = 513.0
+margin_right = 1015.0
+margin_bottom = 589.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Back to menu"
+flat = true
+
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -10.821
 autoplay = true
 
 [connection signal="pressed" from="Menu/VBoxButtons/Play" to="Menu" method="_on_Play_pressed"]
+[connection signal="pressed" from="Menu/VBoxButtons/History" to="Menu" method="_on_History_pressed"]
+[connection signal="pressed" from="Menu/VBoxButtons/Items" to="Menu" method="_on_Items_pressed"]
 [connection signal="pressed" from="Menu/VBoxButtons/Exit" to="Menu" method="_on_Exit_pressed"]
+[connection signal="pressed" from="Menu/Narrative/Back" to="Menu" method="_on_Back_pressed"]
+[connection signal="pressed" from="Menu/ItemsOfGame/Back2" to="Menu" method="_on_Back2_pressed"]
