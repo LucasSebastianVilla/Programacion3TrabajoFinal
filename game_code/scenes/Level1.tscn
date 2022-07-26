@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=2]
+[gd_scene load_steps=130 format=2]
 
 [ext_resource path="res://assets/TX Tileset Grass.png" type="Texture" id=1]
 [ext_resource path="res://assets/TX Tileset Stone Ground.png" type="Texture" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://scenes/EnemySorcer.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/EnemySamurai.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/bckg_music_lvl1.mp3" type="AudioStream" id=14]
-[ext_resource path="res://scenes/EnemyBoss.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scripts/level.gd" type="Script" id=16]
 
 [sub_resource type="TileSet" id=1]
@@ -5153,7 +5152,3 @@ player_direction = 2
 stream = ExtResource( 14 )
 volume_db = -20.439
 autoplay = true
-
-[node name="EnemyBoss" parent="." instance=ExtResource( 15 )]
-position = Vector2( 197, 329 )
-enemyType = 6

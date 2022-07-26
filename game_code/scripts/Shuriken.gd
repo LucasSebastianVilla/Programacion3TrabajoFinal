@@ -1,6 +1,6 @@
 extends Area2D
 
-export var shurikenDestroy = 2.5 #tiempo en que se destruye el shuriken
+export var shurikenDestroy = 1 #tiempo en que se destruye el shuriken
 export (int) var shurikenSpeed = 200 #velocidad del shuriken
 export (int) var shurikenType = 0 #tipo de shuriken, si tiene power ups o no
 

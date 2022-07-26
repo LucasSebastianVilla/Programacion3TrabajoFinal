@@ -96,7 +96,6 @@ margin_bottom = 296.0
 script = ExtResource( 2 )
 
 [node name="VBoxButtons" type="VBoxContainer" parent="Menu"]
-visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -322,6 +321,7 @@ text = "Back to menu"
 flat = true
 
 [node name="SoundsOfGame" type="Control" parent="Menu"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
