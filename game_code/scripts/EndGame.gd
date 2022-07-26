@@ -10,10 +10,11 @@ func _ready():
 		sprite.texture = ResourceLoader.load("res://assets/win_image.png")
 		label.text = "You Win!!!"
 		musicCondition.stream = ResourceLoader.load("res://assets/win_music.mp3")
-		musicCondition.play()
+		
 	else:
 		sprite.texture = ResourceLoader.load("res://assets/lose_image.png")
 		label.text = "You Lose!!!"
 		musicCondition.stream = ResourceLoader.load("res://assets/lose_music.ogg")
+
+	if Global.music:
 		musicCondition.play()
-	

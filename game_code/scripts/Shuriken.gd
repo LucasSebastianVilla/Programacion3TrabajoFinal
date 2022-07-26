@@ -6,6 +6,7 @@ export (int) var shurikenType = 0 #tipo de shuriken, si tiene power ups o no
 
 onready var animatedSprite = $AnimatedSprite
 onready var powerUp = $PowerUp
+onready var bkgSound = $BkgSound
 
 var objectToKill = 0 #configuro a quien debe destruir, 0 nadie 1 player 2 enemigos
 var shurikenDirection = 0 #direccion del disparo
@@ -13,6 +14,8 @@ var shurikenDamage = 30
 
 func _ready():
 	shurikenPower(shurikenType)
+	if Global.fx:
+		bkgSound.play()
 
 func _physics_process(delta):
 	match shurikenDirection: #elijo para donde va el shuriken
@@ -45,8 +48,4 @@ func shurikenPower(powerType):
 		3: shurikenDamage += 50 #hielo
 		
 	powerUp.start() #inicio el power up si tiene
-
-#func _on_PowerUp_timeout():
-#	animatedSprite.material.set_shader_param("changeSprite",0)
-#	animatedSprite.material.set_shader_param("fullSprite",false)
 

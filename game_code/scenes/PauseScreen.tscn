@@ -1,10 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/PauseScreen.gd" type="Script" id=1]
 [ext_resource path="res://assets/square_black.png" type="Texture" id=2]
 [ext_resource path="res://assets/HIROMISAKE.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
 
 [sub_resource type="DynamicFont" id=1]
+size = 31
+outline_size = 1
+outline_color = Color( 0.0431373, 0.392157, 0.560784, 1 )
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+resource_local_to_scene = true
+size = 31
+outline_size = 2
+outline_color = Color( 0.0431373, 0.392157, 0.560784, 1 )
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
 size = 31
 outline_size = 1
 outline_color = Color( 0.0431373, 0.392157, 0.560784, 1 )
@@ -22,15 +38,19 @@ anchor_bottom = 1.0
 texture = ExtResource( 2 )
 expand = true
 
-[node name="Continue" type="Button" parent="."]
+[node name="Buttons" type="Control" parent="."]
+margin_right = 1026.0
+margin_bottom = 598.0
+
+[node name="Continue" type="Button" parent="Buttons"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -165.0
-margin_top = -24.0
-margin_right = 166.0
-margin_bottom = 33.0
+margin_left = -166.0
+margin_top = -23.0
+margin_right = 165.0
+margin_bottom = 34.0
 custom_colors/font_color_focus = Color( 0.792157, 0.690196, 0.0235294, 1 )
 custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
 custom_colors/font_color_hover = Color( 0.054902, 0.0862745, 0.298039, 1 )
@@ -39,15 +59,15 @@ custom_fonts/font = SubResource( 1 )
 text = "Back to Game"
 flat = true
 
-[node name="Restart" type="Button" parent="."]
+[node name="Restart" type="Button" parent="Buttons"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -185.0
-margin_top = 67.5
-margin_right = 185.0
-margin_bottom = 124.5
+margin_left = -186.0
+margin_top = 68.5
+margin_right = 184.0
+margin_bottom = 125.5
 custom_colors/font_color_focus = Color( 0.792157, 0.690196, 0.0235294, 1 )
 custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
 custom_colors/font_color_hover = Color( 0.054902, 0.0862745, 0.298039, 1 )
@@ -56,15 +76,15 @@ custom_fonts/font = SubResource( 1 )
 text = "Restart game"
 flat = true
 
-[node name="Fullscreen" type="Button" parent="."]
+[node name="Fullscreen" type="Button" parent="Buttons"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -165.0
-margin_top = -110.0
-margin_right = 166.0
-margin_bottom = -53.0
+margin_left = -166.0
+margin_top = -109.0
+margin_right = 165.0
+margin_bottom = -52.0
 custom_colors/font_color_focus = Color( 0.792157, 0.690196, 0.0235294, 1 )
 custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
 custom_colors/font_color_hover = Color( 0.054902, 0.0862745, 0.298039, 1 )
@@ -73,6 +93,85 @@ custom_fonts/font = SubResource( 1 )
 text = "Fullscreen"
 flat = true
 
-[connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
-[connection signal="pressed" from="Restart" to="." method="_on_Restart_pressed"]
-[connection signal="pressed" from="Fullscreen" to="." method="_on_Fullscreen_pressed"]
+[node name="Sounds" type="Button" parent="Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -166.0
+margin_top = -181.0
+margin_right = 165.0
+margin_bottom = -124.0
+custom_colors/font_color_focus = Color( 0.792157, 0.690196, 0.0235294, 1 )
+custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
+custom_colors/font_color_hover = Color( 0.054902, 0.0862745, 0.298039, 1 )
+custom_colors/font_color_pressed = Color( 0.686275, 0.8, 0.0392157, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Sounds"
+flat = true
+
+[node name="SoundsOfGame" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -233.5
+margin_top = -141.0
+margin_right = 236.5
+margin_bottom = 124.0
+
+[node name="FxLabel" type="Label" parent="SoundsOfGame"]
+margin_left = 356.0
+margin_top = 100.0
+margin_right = 398.0
+margin_bottom = 132.0
+custom_colors/font_color = Color( 0.419608, 0.0509804, 0.45098, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "on"
+
+[node name="MusicLabel" type="Label" parent="SoundsOfGame"]
+margin_left = 356.0
+margin_top = 150.0
+margin_right = 398.0
+margin_bottom = 182.0
+custom_colors/font_color = Color( 0.419608, 0.0509804, 0.45098, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "on"
+
+[node name="FxButton" type="Button" parent="SoundsOfGame"]
+margin_left = 51.0
+margin_top = 100.0
+margin_right = 202.0
+margin_bottom = 138.0
+custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Sound FX"
+flat = true
+
+[node name="MusicButton" type="Button" parent="SoundsOfGame"]
+margin_left = 51.0
+margin_top = 150.0
+margin_right = 251.0
+margin_bottom = 188.0
+custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Sound Music"
+flat = true
+
+[node name="Back3" type="Button" parent="SoundsOfGame"]
+margin_left = 417.0
+margin_top = 340.0
+margin_right = 707.0
+margin_bottom = 416.0
+custom_colors/font_color = Color( 0.423529, 0.0156863, 0.376471, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Back to menu"
+flat = true
+
+[connection signal="pressed" from="Buttons/Continue" to="." method="_on_Continue_pressed"]
+[connection signal="pressed" from="Buttons/Restart" to="." method="_on_Restart_pressed"]
+[connection signal="pressed" from="Buttons/Fullscreen" to="." method="_on_Fullscreen_pressed"]
+[connection signal="pressed" from="Buttons/Sounds" to="." method="_on_Sounds_pressed"]
+[connection signal="pressed" from="SoundsOfGame/FxButton" to="." method="_on_FxButton_pressed"]
+[connection signal="pressed" from="SoundsOfGame/MusicButton" to="." method="_on_MusicButton_pressed"]
+[connection signal="pressed" from="SoundsOfGame/Back3" to="." method="_on_Back3_pressed"]

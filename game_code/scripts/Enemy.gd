@@ -94,12 +94,15 @@ func _on_PlayerDetector_body_exited(body):
 	
 func _on_EnemyBody_area_entered(area):
 	if area.is_in_group("weapon"): #si el body es el shuriken muere el enemigo
-		enemyHurt.play()
+		if Global.fx:
+			enemyHurt.play()
+			
 		if enemyLife > 0: #si es mas de cero le resto vida
 			enemyLife -= area.shurikenDamage
 			_on_CreateFloatingTextButton("Damage -" + str(area.shurikenDamage), position.x, position.y)
 			flickerFlash()
 			lifeBar.value = enemyLife
+		
 		if enemyLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
 			queue_free()
 			area.queue_free()

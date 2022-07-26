@@ -95,7 +95,9 @@ func _on_PlayerBody_area_entered(area):
 		if !playerCollision: #si recibio un golpe recientemente espera un rato
 			enemyDamage(area.shurikenDamage)
 	if area.is_in_group("powerup"): #pregunto si lo que entra en el area es un power up
-		pickUpSound.play() #sonido del powerup
+		if Global.fx:
+			pickUpSound.play() #sonido del powerup
+		
 		match area.powerUpType:
 			0:	#powerup de shuriken fuego
 				powerUpTimer.start() 
@@ -144,7 +146,9 @@ func enemyDamage(damage): #daño recibido por parte de los enemigos o armas
 		_on_CreateFloatingTextButton("Damage - " + str(damage), position.x, position.y)
 		playerLife -= damage
 		lifeBar.value = playerLife
-		playerHurt.play()
+		
+		if Global.fx:
+			playerHurt.play()
 	if playerLife <= 0: #vuelvo a preguntar por si en el golpe anterior lo mata
 		Global.gameFinalCondition = 2
 		get_tree().change_scene("res://scenes/EndGame.tscn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/MainMenuParallax.gd" type="Script" id=1]
 [ext_resource path="res://scripts/MainMenuButtons.gd" type="Script" id=2]
@@ -59,6 +59,21 @@ outline_size = 2
 outline_color = Color( 0.109804, 0, 0.172549, 1 )
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=8]
+resource_local_to_scene = true
+size = 40
+outline_size = 2
+outline_color = Color( 0.109804, 0, 0.172549, 1 )
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=9]
+resource_local_to_scene = true
+size = 40
+outline_size = 2
+outline_color = Color( 0.109804, 0, 0.172549, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
 [node name="MainMenu" type="ParallaxBackground"]
 script = ExtResource( 1 )
 
@@ -81,14 +96,15 @@ margin_bottom = 296.0
 script = ExtResource( 2 )
 
 [node name="VBoxButtons" type="VBoxContainer" parent="Menu"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -91.5
-margin_top = -216.0
+margin_top = -283.0
 margin_right = 86.5
-margin_bottom = -12.0
+margin_bottom = -32.0
 
 [node name="Play" type="Button" parent="Menu/VBoxButtons"]
 margin_right = 178.0
@@ -116,10 +132,19 @@ custom_fonts/font = ExtResource( 6 )
 text = "Items"
 flat = true
 
-[node name="Exit" type="Button" parent="Menu/VBoxButtons"]
+[node name="Sounds" type="Button" parent="Menu/VBoxButtons"]
 margin_top = 153.0
 margin_right = 178.0
 margin_bottom = 200.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Options"
+flat = true
+
+[node name="Exit" type="Button" parent="Menu/VBoxButtons"]
+margin_top = 204.0
+margin_right = 178.0
+margin_bottom = 251.0
 custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "Exit"
@@ -296,6 +321,76 @@ custom_fonts/font = ExtResource( 6 )
 text = "Back to menu"
 flat = true
 
+[node name="SoundsOfGame" type="Control" parent="Menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -232.5
+margin_top = -143.0
+margin_right = 237.5
+margin_bottom = 246.0
+
+[node name="FxLabel" type="Label" parent="Menu/SoundsOfGame"]
+margin_left = 356.0
+margin_top = 64.0
+margin_right = 410.0
+margin_bottom = 105.0
+custom_colors/font_color = Color( 0.419608, 0.0509804, 0.45098, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "on"
+
+[node name="MusicLabel" type="Label" parent="Menu/SoundsOfGame"]
+margin_left = 356.0
+margin_top = 109.0
+margin_right = 410.0
+margin_bottom = 150.0
+custom_colors/font_color = Color( 0.419608, 0.0509804, 0.45098, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "on"
+
+[node name="Info" type="Label" parent="Menu/SoundsOfGame"]
+margin_left = 59.0
+margin_top = 158.0
+margin_right = 537.0
+margin_bottom = 331.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Movement Arrows keys
+Shoot  space key
+pause game esc key
+restart game r key"
+
+[node name="FxButton" type="Button" parent="Menu/SoundsOfGame"]
+margin_left = 51.0
+margin_top = 64.0
+margin_right = 243.0
+margin_bottom = 111.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Sound FX"
+flat = true
+
+[node name="MusicButton" type="Button" parent="Menu/SoundsOfGame"]
+margin_left = 51.0
+margin_top = 109.0
+margin_right = 304.0
+margin_bottom = 156.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Sound Music"
+flat = true
+
+[node name="Back3" type="Button" parent="Menu/SoundsOfGame"]
+margin_left = 417.0
+margin_top = 340.0
+margin_right = 707.0
+margin_bottom = 416.0
+custom_colors/font_color = Color( 0.0509804, 0.290196, 0.45098, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "Back to menu"
+flat = true
+
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -10.821
@@ -304,6 +399,10 @@ autoplay = true
 [connection signal="pressed" from="Menu/VBoxButtons/Play" to="Menu" method="_on_Play_pressed"]
 [connection signal="pressed" from="Menu/VBoxButtons/History" to="Menu" method="_on_History_pressed"]
 [connection signal="pressed" from="Menu/VBoxButtons/Items" to="Menu" method="_on_Items_pressed"]
+[connection signal="pressed" from="Menu/VBoxButtons/Sounds" to="Menu" method="_on_Sounds_pressed"]
 [connection signal="pressed" from="Menu/VBoxButtons/Exit" to="Menu" method="_on_Exit_pressed"]
 [connection signal="pressed" from="Menu/Narrative/Back" to="Menu" method="_on_Back_pressed"]
 [connection signal="pressed" from="Menu/ItemsOfGame/Back2" to="Menu" method="_on_Back2_pressed"]
+[connection signal="pressed" from="Menu/SoundsOfGame/FxButton" to="Menu" method="_on_FxButton_pressed"]
+[connection signal="pressed" from="Menu/SoundsOfGame/MusicButton" to="Menu" method="_on_MusicButton_pressed"]
+[connection signal="pressed" from="Menu/SoundsOfGame/Back3" to="Menu" method="_on_Back3_pressed"]

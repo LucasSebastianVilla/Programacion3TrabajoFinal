@@ -7,6 +7,8 @@ var player_facing_direction = 4 #orientacion del player
 var scene_to_back = "" #escena donde regresa
 var gameFinalCondition = 1 #1 gana 2 pierde
 var parallaxScroll = true #controlo el parallax del menu
+var music = true #controlo la musica ambiental 
+var fx = true #controlo los sonidos fx
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
