@@ -18,3 +18,6 @@ func set_visible(is_visible): #configura la visibilidad de los nodos
 
 func _on_Fullscreen_pressed(): #permito que se pueda pasar a pantalla completa desde el menu pausa
 	OS.window_fullscreen = !OS.window_fullscreen
+
+func _on_Restart_pressed():
+	get_tree().change_scene("res://scenes/Level1.tscn")

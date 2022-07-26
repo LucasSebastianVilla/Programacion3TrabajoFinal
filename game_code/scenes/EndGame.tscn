@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/EndGame.gd" type="Script" id=1]
 [ext_resource path="res://assets/alexander-kolesnikov-highresscreenshot00000.jpg" type="Texture" id=2]
@@ -9,6 +9,13 @@
 size = 90
 outline_size = 2
 outline_color = Color( 0.933333, 0.027451, 0.027451, 1 )
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+outline_size = 1
+outline_color = Color( 0.172549, 0.0431373, 0.709804, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
@@ -37,6 +44,19 @@ custom_fonts/font = SubResource( 1 )
 text = "You Lose!!!"
 align = 1
 valign = 1
+
+[node name="Label2" type="Label" parent="Control"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -187.5
+margin_top = -67.0
+margin_right = 187.5
+margin_bottom = -34.0
+custom_colors/font_color = Color( 0.0431373, 0.623529, 0.611765, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Restart game - Press R"
 
 [node name="MusicCondition" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
